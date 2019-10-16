@@ -2,6 +2,10 @@ public class Arvore {
 
     private Node raiz = null;
 
+    public void setRaiz(Node raiz) {
+        this.raiz = raiz;
+    }
+
     public Node getRaiz(){
         return raiz;
     }

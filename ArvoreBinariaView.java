@@ -34,7 +34,7 @@ public class ArvoreBinariaView extends JComponent {
             g.drawString(
                     String.valueOf(node.getValue())+'-'+node.getCarac(),
                     x+20,
-                    y+30);
+                    y+20);
         }
 
         if (node.getLeft()!=null){
