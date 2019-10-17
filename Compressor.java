@@ -1,9 +1,6 @@
 import javax.swing.*;
 import java.io.*;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.*;
 
 public class Compressor {
 
@@ -44,7 +41,7 @@ public class Compressor {
         //String linha = "";
         int intchar;
         char carac;
-        while ( (intchar = buffRead.read())!=-1) {
+        while ( (intchar = buffRead.read())!=10) {
 
             carac=(char) intchar;
             //linha=carac+"\n";
@@ -63,9 +60,16 @@ public class Compressor {
 
         Arvore arvore = new Arvore();
         Heap heap = new Heap();
-        Node root=null;
+
+        TreeMap sorted = new TreeMap(dic);
+        sorted.putAll(dic);
+
+
+
+        //heap.orderAscHeap(heap.getNodes());
+        //Node root=null;
         //for (int i=0;i<dic.size();++i){
-        for (Object key : dic.keySet()) {
+        for (Object key : sorted.keySet()) {
             /*if (root==null){
                 root= new Node(((char)key),(int)dic.get(key));
             }
@@ -116,18 +120,44 @@ public class Compressor {
                 arvore.getRaiz().insert(heap.getNodes()[0]);
                 System.out.println("FIRST: "+heap.getNodes()[0].getCarac()+" - " +heap.getNodes()[0].getValue() );
                 arvore.getRaiz().insert(heap.getNodes()[1]);
-                System.out.println("SECOND: "+heap.getNodes()[1].getCarac()+" - " +heap.getNodes()[1].getValue() );
-            }else{
+                System.out.println("SECOND: "+heap.getNodes()[1].getCarac()+" - " +heap.getNodes()[1].getValue());
+            }else if (heap.getSize()>3){
                 Node raiz=arvore.getRaiz();
                 arvore.setRaiz(new Node(-1,soma));
                 arvore.getRaiz().insert(raiz);
                 System.out.println("FIRST: "+heap.getNodes()[0].getCarac()+" - " +heap.getNodes()[0].getValue() );
                 arvore.getRaiz().insert(heap.getNodes()[1]);
                 System.out.println("SECOND: "+heap.getNodes()[1].getCarac()+" - " +heap.getNodes()[1].getValue() );
+            }else{
+                Node raiz=arvore.getRaiz(); //5
+                Node irmao=new Node(-1,soma);
+                irmao.insert(heap.getNodes()[0]);
+                irmao.insert(heap.getNodes()[1]);
+                arvore.setRaiz(new Node(-1,raiz.getValue()+irmao.getValue()));
+                arvore.getRaiz().insert(raiz);
+                arvore.getRaiz().insert(irmao);
             }
             System.out.println(i);
             heap.remove();
+
+
+            tabela=heap.getNodes();
+            for (int j=0;j<heap.getSize();++j){
+                System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
+                //writer.write(tabela[j].getCarac()+ " = " + tabela[j].getValue()+'\n');
+            }
+            heap.remove();
+            tabela=heap.getNodes();
+            for (int j=0;j<heap.getSize();++j){
+                System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
+                //writer.write(tabela[j].getCarac()+ " = " + tabela[j].getValue()+'\n');
+            }
             heap.insert(new Node(-1,soma));
+            tabela=heap.getNodes();
+            for (int j=0;j<heap.getSize();++j){
+                System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
+                //writer.write(tabela[j].getCarac()+ " = " + tabela[j].getValue()+'\n');
+            }
             frame.add(view);
 
         }

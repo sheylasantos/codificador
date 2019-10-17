@@ -34,9 +34,9 @@ public class Arvore {
         return raiz.search(key);
     }
 
-    public void remove(int value) {
+    /*public void remove(int value) {
         Node n = search(value);
         n.remove(value);
-    }
+    }*/
 
 }

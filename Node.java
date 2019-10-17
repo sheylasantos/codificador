@@ -1,5 +1,5 @@
 
-public class Node {
+public class Node implements Comparable<Node>{
 //    private Node left;
 //    private Node right;
 //    private char carac;
@@ -11,8 +11,12 @@ public class Node {
     private int value;
     private char carac;
     private int count;
-    private Node left;
-    private Node right;
+    private Node left = null;
+    private Node right = null;
+
+    public int compareTo(Node n) {
+        return (this.value - n.getValue());
+    }
 
     public Node(int letter,int value) {
         this.letter=letter;
@@ -50,13 +54,13 @@ public class Node {
     }
 
     public void insert(Node node) {
-        if (node.value < this.value) {
+        if (node.value < this.value && this.left==null) {
             if (this.left == null) {
                 this.left = node;
             } else {
                 this.left.insert(node);
             }
-        } else if (node.value > this.value) {
+        } else if (node.value > this.value || this.left!=null) {
             if (this.right == null) {
                 this.right = node;
             } else {
@@ -92,7 +96,7 @@ public class Node {
         return this.letter==((Node)obj).letter;
     }*/
 
-    public void remove(int key) {
+    /*public void remove(int key) {
         Node n=this;
         if (n.left==null&&n.right==null){
             n=null;
@@ -112,7 +116,7 @@ public class Node {
         }else{
             n=n.left;
         }
-    }
+    }*/
 
 //    public int heightLeft(int count){
 //        if (this==null){
