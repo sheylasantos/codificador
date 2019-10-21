@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.BitSet;
 
 public class Node implements Comparable<Node>{
 //    private Node left;
@@ -13,6 +15,8 @@ public class Node implements Comparable<Node>{
     private int count;
     private Node left = null;
     private Node right = null;
+    private BitSet bits = new BitSet();
+    private int tamanhoBits=0;
 
     public int compareTo(Node n) {
         return (this.value - n.getValue());
@@ -31,6 +35,18 @@ public class Node implements Comparable<Node>{
         this.letter=(int)carac;
         //this.countLeft=0;
         //this.countRight=0;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public BitSet getBits() {
+        return bits;
     }
 
     public Node getLeft() {
@@ -57,12 +73,18 @@ public class Node implements Comparable<Node>{
         if (node.value < this.value && this.left==null) {
             if (this.left == null) {
                 this.left = node;
+                this.left.setCount(0);
+                this.bits.set(tamanhoBits,false);
+                this.tamanhoBits++;
             } else {
                 this.left.insert(node);
             }
         } else if (node.value > this.value || this.left!=null) {
             if (this.right == null) {
                 this.right = node;
+                this.right.setCount(1);
+                this.bits.set(tamanhoBits,true);
+                this.tamanhoBits++;
             } else {
                 this.right.insert(node);
             }
@@ -74,20 +96,24 @@ public class Node implements Comparable<Node>{
             return this;
         }
 
-        if (key < this.letter) {
+        if (value < this.letter) {
             if (this.left != null) {
+                this.setCount(0);
                 return this.left.search(key);
             }
         }
 
         if (key > this.letter) {
             if (this.right != null) {
+                this.setCount(1);
                 return this.right.search(key);
             }
         }
 
         return null;
     }
+
+
 
     /*public boolean equals(Object obj) {
         if (obj.getClass()!=this.getClass()){

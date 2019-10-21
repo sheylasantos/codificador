@@ -27,27 +27,27 @@ public class Heap {
         nodes[getSize()] = node;
         heapifyUp(getSize());
         size++;
-
+        //   orderAscHeap(nodes);
     }
 
-//    public void orderAscHeap(Node[] array){
-//            for (int i=0;i<getSize()/2;++i){
-//               heapifyDown(i);
-//            }
-//        //int[] retorno = new int[getSize()];
-//
-//        while (getSize()>0){
-//            rootToEnd();
-//        }
-//    }
-//    public void rootToEnd() {
-//        Node root = nodes[0];
-//        nodes[0]=nodes[getSize()-1];
-//        nodes[getSize()-1]=root;
-//        heapifyDown(0);
-//        size--;
-//        //heapifyDown(0);
-//    }
+    public void orderAscHeap(Node[] array){
+            for (int i=0;i<getSize()/2;++i){
+               heapifyDown(i);
+            }
+        //int[] retorno = new int[getSize()];
+
+        while (getSize()>0){
+            rootToEnd();
+        }
+    }
+    public void rootToEnd() {
+        Node root = nodes[0];
+        nodes[0]=nodes[getSize()-1];
+        nodes[getSize()-1]=root;
+        heapifyDown(0);
+        size--;
+        //heapifyDown(0);
+    }
 
     private void heapifyUp(int index) {
         if (!hasParent(index)){
@@ -120,7 +120,7 @@ public class Heap {
         }
 
         if (rightChild < getSize()) {
-            if (nodes[rightChild].getValue() < nodes[leftChild].getValue()) {
+            if (nodes[rightChild].getValue() <= nodes[leftChild].getValue()) {
                 childIndex = rightChild;
             }
         }

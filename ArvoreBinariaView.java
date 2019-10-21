@@ -32,23 +32,27 @@ public class ArvoreBinariaView extends JComponent {
         if (node!=null){
             g.drawOval(x,y,nodeSize,nodeSize);
             g.drawString(
-                    String.valueOf(node.getValue())+'-'+node.getCarac(),
+                    String.valueOf(node.getValue())+'-'+node.getCarac()+'='+node.getCount(),
                     x+20,
                     y+20);
         }
 
         if (node.getLeft()!=null){
+            g.setColor(Color.red);
             int childX=x-offSet;
             int childY=y+offSet;
             g.drawLine(x+nodeSize/2,y+nodeSize,childX+nodeSize/2,childY);
             drawNode(g,node.getLeft(),childX+10,childY,level+1);
+            
         }
 
         if (node.getRight()!=null){
+            g.setColor(Color.blue);
             int childX=x+offSet;
             int childY=y+offSet;
             g.drawLine(x+nodeSize/2,y+nodeSize,childX+nodeSize/3,childY);
-            drawNode(g,node.getRight(),x+10,y+70,level+1);
+            drawNode(g,node.getRight(),x+50,y+70,level+1);
+            
         }
     }
 }
