@@ -41,11 +41,15 @@ public class Compressor {
         //String linha = "";
         int intchar=0;
         char carac;
-        while ( (intchar = buffRead.read())!=10) {
-            if(intchar == -1){
-                System.out.println("====IF=====");
-                break;
+        int count=1;
+
+        while ( (intchar = buffRead.read())!=-1) {
+
+            if(intchar == 10){
+                //intchar=32;
+                //continue;
             }
+
             carac=(char) intchar;
             //linha=carac+"\n";
             //System.out.println("====HWILE=====");
@@ -60,7 +64,7 @@ public class Compressor {
         }
         buffRead.close();
         System.out.println("====DIC=====");
-        FileWriter writer = new FileWriter("saida3.txt");
+        FileWriter writer = new FileWriter("saida1.txt");
 
         
         Heap heap = new Heap();
@@ -87,7 +91,7 @@ public class Compressor {
 
             System.out.println(key + " = " + dic.get(key));
             //System.out.println(car[0]);
-            writer.write(key + " = " + dic.get(key)+'\n');
+            writer.write(key + ";" + dic.get(key)+'\n');
         }
 
             //arvore.remove((int)arvore.getRaiz().getCarac());
@@ -98,12 +102,12 @@ public class Compressor {
         //heap.heapSort();
         //heap.orderAscHeap(heap.getNodes());
         if(heap.getSize()!=0){
-            writer.write("==============HEAP=============\n");
+            writer.write("=\n");
             System.out.println("==============HEAP=============");
             Node[] tabela= heap.getNodes();
             for (int i=0;i<heap.getSize();++i){
                 System.out.println(tabela[i].getCarac()+ " = " + tabela[i].getValue());
-                writer.write(tabela[i].getCarac()+ " = " + tabela[i].getValue()+'\n');
+                writer.write(tabela[i].getCarac()+ ";" + tabela[i].getValue()+'\n');
             }
             writer.close();
             JFrame frame = new JFrame("Visualizador de ABB");
@@ -167,21 +171,26 @@ public class Compressor {
 
             }*/
             while(heap.getSize()>1){
-                int soma = heap.getNodes()[0].getValue()+heap.getNodes()[1].getValue();
-                Node novo = new Node(-1,soma);
+
+
                 Node left =  heap.getNodes()[0];
-                Node right =  heap.getNodes()[1];
+                heap.remove();
+                Node right =  heap.getNodes()[0];
+                heap.remove();
+
+                int soma = left.getValue()+right.getValue();
+                Node novo = new Node(-1,soma);
                 novo.insert(left);
                 novo.insert(right);
 
-                heap.remove();
+
                 System.out.println("===========");
                 tabela=heap.getNodes();
                     for (int j=0;j<heap.getSize();++j){
                         System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
                         //writer.write(tabela[j].getCarac()+ " = " + tabela[j].getValue()+'\n');
                     }
-                    heap.remove();
+
                     System.out.println("===========");
                     tabela=heap.getNodes();
                     for (int j=0;j<heap.getSize();++j){
@@ -208,7 +217,77 @@ public class Compressor {
             System.out.println(bits.get(1));
         
 //            System.out.println(arvore.getRaiz().getRight().getBits().get(1));
+            /*
+            public static void expand() {
+               Node root = readTrie();        // discutido abaixo
+               int N = BinaryStdIn.readInt(); // comprimento da string original
 
+               for (int i = 0; i < N; i++) {  // decodifica próximo caractere
+                  Node x = root;
+                  while (!x.isLeaf())
+                     if (BinaryStdIn.readBoolean())
+                          x = x.right;
+                     else x = x.left;
+                  BinaryStdOut.write(x.ch);
+               }
+               BinaryStdOut.close();
+
+           }
+           private static Node buildTrie(int[] freq) {
+               MinPQ<Node> pq = new MinPQ<Node>();
+               for (char c = 0; c < R; c++)
+                  if (freq[c] > 0)
+                     pq.insert(new Node(c, freq[c], null, null));
+
+               while (pq.size() > 1) {
+                  Node x = pq.delMin();
+                  Node y = pq.delMin();
+                  Node parent = new Node('\0', x.freq + y.freq, x, y);
+                  pq.insert(parent);
+               }
+               return pq.delMin();
+            }
+
+            private static String[] buildCode(Node root) {
+               String[] st = new String[R];
+               buildCode(st, root, "");
+               return st;
+            }
+
+            private static void buildCode(String[] st, Node x, String s) {
+               if (x.isLeaf()) {
+                  st[x.ch] = s;
+                  return;
+               }
+               buildCode(st, x.left, s + '0');
+               buildCode(st, x.right, s + '1');
+            }
+
+            String s = BinaryStdIn.readString();
+           char[] input = s.toCharArray();
+
+           int[] freq = new int[R];
+           for (int i = 0; i < input.length; i++)
+              freq[input[i]]++;
+
+           Node root = buildTrie(freq);
+
+           String[] st = new String[R];
+           buildCode(st, root, "");
+
+           writeTrie(root);  // discutido abaixo
+
+           BinaryStdOut.write(input.length);
+
+           for (int i = 0; i < input.length; i++) {
+              String code = st[input[i]];
+              for (int j = 0; j < code.length(); j++)
+              if (code.charAt(j) == '1')
+                   BinaryStdOut.write(true);
+              else BinaryStdOut.write(false);
+           }
+           BinaryStdOut.close();
+             */
 
         //}
     }
