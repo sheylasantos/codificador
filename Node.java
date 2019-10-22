@@ -12,7 +12,8 @@ public class Node implements Comparable<Node>{
     private int letter;
     private int value;
     private char carac;
-    private int count;
+    protected int count;
+    protected char countChar;
     private Node left = null;
     private Node right = null;
     private BitSet bits = new BitSet();
@@ -35,6 +36,14 @@ public class Node implements Comparable<Node>{
         this.letter=(int)carac;
         //this.countLeft=0;
         //this.countRight=0;
+    }
+
+    public boolean isLeaf(){
+        return this.left==null && this.right==null;
+    }
+
+    public void setCountChar(char countChar) {
+        this.countChar = countChar;
     }
 
     public void setCount(int count) {
@@ -73,6 +82,7 @@ public class Node implements Comparable<Node>{
         if (node.value < this.value && this.left==null) {
             if (this.left == null) {
                 this.left = node;
+                this.left.setCountChar('0');
                 this.left.setCount(0);
                 this.bits.set(tamanhoBits,false);
                 this.tamanhoBits++;
@@ -82,6 +92,7 @@ public class Node implements Comparable<Node>{
         } else if (node.value > this.value || this.left!=null) {
             if (this.right == null) {
                 this.right = node;
+                this.right.setCountChar('1');
                 this.right.setCount(1);
                 this.bits.set(tamanhoBits,true);
                 this.tamanhoBits++;

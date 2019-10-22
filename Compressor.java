@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 public class Compressor {
-
+    private static int R = 256;
     public static void main(String[] args) throws IOException {
 
 
@@ -190,15 +190,8 @@ public class Compressor {
                         System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
                         //writer.write(tabela[j].getCarac()+ " = " + tabela[j].getValue()+'\n');
                     }
-
                     System.out.println("===========");
-                    tabela=heap.getNodes();
-                    for (int j=0;j<heap.getSize();++j){
-                        System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
-                        //writer.write(tabela[j].getCarac()+ " = " + tabela[j].getValue()+'\n');
-                    }
                     heap.insert(novo);
-                    System.out.println("===========");
                     tabela=heap.getNodes();
                     for (int j=0;j<heap.getSize();++j){
                         System.out.println(tabela[j].getCarac()+ " = " + tabela[j].getValue());
@@ -210,12 +203,18 @@ public class Compressor {
             arvore.insert(heap.getNodes()[0]);
             ArvoreBinariaView view = new ArvoreBinariaView(arvore);
             frame.add(view);
+            String[] st = new String[R];
+            buildCode(st,arvore.getRaiz() , "");
+
+            writeTrie(arvore.getRaiz());
         }
 
             BitSet bits = new BitSet();
             bits.set(0);
             System.out.println(bits.get(1));
-        
+
+
+
 //            System.out.println(arvore.getRaiz().getRight().getBits().get(1));
             /*
             public static void expand() {
@@ -248,20 +247,7 @@ public class Compressor {
                return pq.delMin();
             }
 
-            private static String[] buildCode(Node root) {
-               String[] st = new String[R];
-               buildCode(st, root, "");
-               return st;
-            }
 
-            private static void buildCode(String[] st, Node x, String s) {
-               if (x.isLeaf()) {
-                  st[x.ch] = s;
-                  return;
-               }
-               buildCode(st, x.left, s + '0');
-               buildCode(st, x.right, s + '1');
-            }
 
             String s = BinaryStdIn.readString();
            char[] input = s.toCharArray();
@@ -291,4 +277,44 @@ public class Compressor {
 
         //}
     }
+
+    private static String[] buildCode(Node root) {
+        String[] st = new String[R];
+        buildCode(st, root, "");
+        return st;
+    }
+
+    private static void buildCode(String[] st, Node x, String s) {
+        if (x.isLeaf()) {
+            st[x.getCarac()] = s;
+            return;
+        }
+        buildCode(st, x.getLeft(), s + '0');
+        buildCode(st, x.getRight(), s + '1');
+    }
+    private static void writeTrie(Node x) throws IOException {
+        FileWriter writer = new FileWriter("saida.txt");
+
+        if (x.isLeaf()) {
+            writer.append((char)x.countChar);
+            System.out.println((char)x.countChar);
+            writer.append(x.getCarac());
+            System.out.println(x.getCarac());
+            writer.close();
+            return;
+        }
+        writer.append((char)x.countChar);
+        System.out.println((char)x.countChar);
+        writer.close();
+        writeTrie(x.getLeft());
+        writeTrie(x.getRight());
+
+    }
+    /*private static Node readTrie() {
+        if (buff.readBoolean()) {
+            char c = BinaryStdIn.readChar();
+            return new Node(c, 0, null, null);
+        }
+        return new Node('\0', 0, readTrie(), readTrie());
+    }*/
 }
